@@ -3,6 +3,9 @@
         <div v-show="pagination.items.length>0" class="pagination-content">
             <slot :items="pagination.items" :result-data="resultData"></slot>
         </div>
+        <div v-show="!pagination.items.length" class="empty-content">
+            <div>暂无数据</div>
+        </div>
         <div class="pagination-outer-wrapper">
             <div class="pagination">
                 <div class="features-wrapper">
@@ -124,6 +127,15 @@
     }
 </script>
 <style lang="scss" >
+
+    .empty-content{
+        width: 100%;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     //@import "vue-select/src/scss/vue-select.scss";
     //todo
     .pagination-outer-wrapper {

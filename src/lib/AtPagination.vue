@@ -136,8 +136,7 @@
         align-items: center;
     }
 
-    //@import "vue-select/src/scss/vue-select.scss";
-    //todo
+    @import "~vue-select/src/scss/vue-select.scss";
     .pagination-outer-wrapper {
         display: flex;
         justify-content: flex-end;

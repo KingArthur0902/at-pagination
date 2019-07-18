@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="features-wrapper">
-                    每页<v-select id="sizeSelectBox" :clearable="false" :options="pagination.sizes" v-model="pagination.pageSize" @input="reload()"></v-select>
+                    每页<v-select id="sizeSelectBox" :searchable="false" :clearable="false" :options="pagination.sizes" v-model="pagination.pageSize" @input="reload()"></v-select>
                 </div>
                 <div class="features-wrapper">
                     到第<input type="number" class="page-num"  min="1" max="999" v-model="pagination.pageTo" v-on:keyup.enter="goSpecificPage(0)">页

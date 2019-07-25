@@ -9,15 +9,15 @@
         <div class="pagination-outer-wrapper">
             <div class="pagination">
                 <div class="features-wrapper">
-                    <span class="page-index">{{pagination.pageNumber}}/{{pagination.pageCount}}</span>
+                    <span class="page-index">{{pagination.page}}/{{pagination.pageCount}}</span>
                     <div class="page-btns">
-                        <span class="page-btn prev-btn" v-bind:class="{'disabled-btn': pagination.pageNumber <= 1, 'index-on': pagination.pageNumber >= pagination.pageCount}" @click="goSpecificPage(-1)">&lt;</span>
+                        <span class="page-btn prev-btn" v-bind:class="{'disabled-btn': pagination.page <= 1, 'index-on': pagination.page >= pagination.pageCount}" @click="goSpecificPage(-1)">&lt;</span>
                         <i class="line-vertical"></i>
-                        <span class="page-btn next-btn" v-bind:class="{'disabled-btn': pagination.pageNumber >= pagination.pageCount}" @click="goSpecificPage(1)">&gt;</span>
+                        <span class="page-btn next-btn" v-bind:class="{'disabled-btn': pagination.page >= pagination.pageCount}" @click="goSpecificPage(1)">&gt;</span>
                     </div>
                 </div>
                 <div class="features-wrapper">
-                    每页<v-select id="sizeSelectBox" :searchable="false" :clearable="false" :options="pagination.sizes" v-model="pagination.pageSize" @input="reload()"></v-select>
+                    每页<v-select id="sizeSelectBox" :searchable="false" :clearable="false" :options="pagination.sizes" v-model="pagination.size" @input="reload()"></v-select>
                 </div>
                 <div class="features-wrapper">
                     到第<input type="number" class="page-num"  min="1" max="999" v-model="pagination.pageTo" v-on:keyup.enter="goSpecificPage(0)">页
@@ -49,8 +49,8 @@
             return {
                 pagination: {
                     pageTo        : 1,
-                    pageNumber: 1,
-                    pageSize: 20,
+                    page: 1,
+                    size: 20,
                     pageCount: 1,
                     sizes: [10, 20, 50, 100, 150],
                     totalItemCount: 0,
@@ -66,26 +66,26 @@
         methods: {
             goSpecificPage:function(type){
                 if (type === 1) {
-                    this.pagination.pageNumber++
-                    if (this.pagination.pageNumber > this.pagination.pageCount) {
-                        this.pagination.pageNumber  = this.pagination.pageCount
+                    this.pagination.page++
+                    if (this.pagination.page > this.pagination.pageCount) {
+                        this.pagination.page  = this.pagination.pageCount
                         return
                     }
                 } else if (type === -1) {
-                    this.pagination.pageNumber--
-                    if (this.pagination.pageNumber <= 0) {
-                        this.pagination.pageNumber = 1
+                    this.pagination.page--
+                    if (this.pagination.page <= 0) {
+                        this.pagination.page = 1
                         return
                     }
                 } else if (type === 0) {
-                    this.pagination.pageNumber   = this.pagination.pageTo > this.pagination.pageCount ? this.pagination.pageCount : this.pagination.pageTo
-                    this.pagination.pageTo = this.pagination.pageNumber
+                    this.pagination.page   = this.pagination.pageTo > this.pagination.pageCount ? this.pagination.pageCount : this.pagination.pageTo
+                    this.pagination.pageTo = this.pagination.page
                 }
                 this.reload();
             },
             reload: function (p) {
                 if (p) {
-                    this.pagination.pageNumber = p
+                    this.pagination.page = p
                 }
                 new Promise(resolve => {
                     if (this.queryUrl) {
@@ -93,8 +93,8 @@
                             method: 'GET',
                             url: this.queryUrl || '',
                             params: Object.assign({}, this.queryParams, {
-                                pageNumber: this.pagination.pageNumber,
-                                pageSize: this.pagination.pageSize
+                                page: this.pagination.page,
+                                size: this.pagination.size
                             })
                         }).then((res) => {
                             if (res && res.data && res.data.data) {

@@ -9,11 +9,11 @@
         <div class="pagination-outer-wrapper">
             <div class="pagination">
                 <div class="features-wrapper">
-                    <span class="page-index">{{pagination.pageNum}}/{{pagination.pageCount}}</span>
+                    <span class="page-index">{{pagination.pageNumber}}/{{pagination.pageCount}}</span>
                     <div class="page-btns">
-                        <span class="page-btn prev-btn" v-bind:class="{'disabled-btn': pagination.pageNum <= 1, 'index-on': pagination.pageNum >= pagination.pageCount}" @click="goSpecificPage(-1)">&lt;</span>
+                        <span class="page-btn prev-btn" v-bind:class="{'disabled-btn': pagination.pageNumber <= 1, 'index-on': pagination.pageNumber >= pagination.pageCount}" @click="goSpecificPage(-1)">&lt;</span>
                         <i class="line-vertical"></i>
-                        <span class="page-btn next-btn" v-bind:class="{'disabled-btn': pagination.pageNum >= pagination.pageCount}" @click="goSpecificPage(1)">&gt;</span>
+                        <span class="page-btn next-btn" v-bind:class="{'disabled-btn': pagination.pageNumber >= pagination.pageCount}" @click="goSpecificPage(1)">&gt;</span>
                     </div>
                 </div>
                 <div class="features-wrapper">
@@ -49,7 +49,7 @@
             return {
                 pagination: {
                     pageTo        : 1,
-                    pageNum: 1,
+                    pageNumber: 1,
                     pageSize: 20,
                     pageCount: 1,
                     sizes: [10, 20, 50, 100, 150],
@@ -66,26 +66,26 @@
         methods: {
             goSpecificPage:function(type){
                 if (type === 1) {
-                    this.pagination.pageNum++
-                    if (this.pagination.pageNum > this.pagination.pageCount) {
-                        this.pagination.pageNum  = this.pagination.pageCount
+                    this.pagination.pageNumber++
+                    if (this.pagination.pageNumber > this.pagination.pageCount) {
+                        this.pagination.pageNumber  = this.pagination.pageCount
                         return
                     }
                 } else if (type === -1) {
-                    this.pagination.pageNum--
-                    if (this.pagination.pageNum <= 0) {
-                        this.pagination.pageNum = 1
+                    this.pagination.pageNumber--
+                    if (this.pagination.pageNumber <= 0) {
+                        this.pagination.pageNumber = 1
                         return
                     }
                 } else if (type === 0) {
-                    this.pagination.pageNum   = this.pagination.pageTo > this.pagination.pageCount ? this.pagination.pageCount : this.pagination.pageTo
-                    this.pagination.pageTo = this.pagination.pageNum
+                    this.pagination.pageNumber   = this.pagination.pageTo > this.pagination.pageCount ? this.pagination.pageCount : this.pagination.pageTo
+                    this.pagination.pageTo = this.pagination.pageNumber
                 }
                 this.reload();
             },
             reload: function (p) {
                 if (p) {
-                    this.pagination.pageNum = p
+                    this.pagination.pageNumber = p
                 }
                 new Promise(resolve => {
                     if (this.queryUrl) {
@@ -93,7 +93,7 @@
                             method: 'GET',
                             url: this.queryUrl || '',
                             params: Object.assign({}, this.queryParams, {
-                                pageNum: this.pagination.pageNum,
+                                pageNumber: this.pagination.pageNumber,
                                 pageSize: this.pagination.pageSize
                             })
                         }).then((res) => {
